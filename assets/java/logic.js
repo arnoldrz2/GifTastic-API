@@ -1,14 +1,15 @@
 //Giphy API: Musical Edition
 // Musical Artists/Groups Array
-var topics = [];
+var topics = ["The Gorillaz", "Snoop Dogg", "Lady Gaga", "Rob Zombie"];
 
 // AuthKey Variable
 var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
 
-//==========================================================================
+//========================================================================================
 
   // Funtion to re-render HTML to display the Gifs
   function displayGifs() {
+    $("#gif-well").empty();
 
     var topic = $(this).attr("data-name");
     var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + authKey;
@@ -24,7 +25,7 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
       for (var i = 0; i < results.length; i++) {
 
         // Creating a div to hold the topic
-        var topicDiv = $("<div class='topic'>");
+        var topicDiv = $("<div class='topic-gif'>");
 
         // Creating an paragraph tag with the gif rating
         var p = $("<p>").text("Rating: " + results[i].rating);
@@ -33,7 +34,11 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
         var topicImage = $("<img>");
 
         // Setting the src attribute of the image to a property pulled off the result item
-        topicImage.attr("src", results[i].images.fixed_height.url);
+        topicImage.attr("src", results[i].images.fixed_height_still.url);
+        topicImage.attr("data-still", results[i].images.fixed_height_still.url);
+        topicImage.attr("data-animate", results[i].images.fixed_height.url);
+        topicImage.attr("data-state", "still");
+        topicImage.addClass("gif");
 
         // Append image and rating to topic Div
         topicDiv.append(topicImage);
@@ -44,6 +49,8 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
       }
     });
   }
+
+//========================================================================================
 
   // Funtion for displaying topic data
   function renderButtons() {
@@ -67,7 +74,9 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
     }
   }
 
-  // This function handles events where a topic button is clicked
+//========================================================================================
+
+  // This function will push new topics entered by user into the topic array
   $("#add-button").on("click", function(event){
     event.preventDefault();
 
@@ -82,3 +91,22 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
   });
 
   $(document).on("click", ".topic", displayGifs);
+
+//========================================================================================
+
+  //Gif animation on click functions
+  $(".gif").on("click", function() {
+    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+    var state = $(this).attr("data-state");
+    // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+    // Then, set the image's data-state to animate
+    // Else set src to the data-still value
+    if (state === "still") {
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+    } else {
+      $(this).attr("src", $(this).attr("data-still"));
+      $(this).attr("data-state", "still");
+    }
+  });
+renderButtons();
