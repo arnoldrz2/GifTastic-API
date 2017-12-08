@@ -6,3 +6,7 @@
 .topic {
   margin: 5px;
 }
+
+.gif {
+  z-index: 5;
+}

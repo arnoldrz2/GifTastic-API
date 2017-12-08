@@ -95,7 +95,7 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
 //========================================================================================
 
   //Gif animation on click functions
-  $(".gif").on("click", function() {
+  function animate() {
     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
     var state = $(this).attr("data-state");
     // If the clicked image's state is still, update its src attribute to what its data-animate value is.
@@ -104,9 +104,14 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
     if (state === "still") {
       $(this).attr("src", $(this).attr("data-animate"));
       $(this).attr("data-state", "animate");
+      console.log("data-state");
     } else {
       $(this).attr("src", $(this).attr("data-still"));
       $(this).attr("data-state", "still");
+      console.log("data-state");
     }
-  });
+  };
+
+  $(document).on("click", ".gif", animate);
+
 renderButtons();
