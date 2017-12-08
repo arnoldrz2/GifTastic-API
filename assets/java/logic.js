@@ -104,14 +104,22 @@ var authKey = "&api_key=hFytTfUDJIvPPcB1J1S3TfBxPqVDcJhr&limit=10";
     if (state === "still") {
       $(this).attr("src", $(this).attr("data-animate"));
       $(this).attr("data-state", "animate");
-      console.log("data-state");
     } else {
       $(this).attr("src", $(this).attr("data-still"));
       $(this).attr("data-state", "still");
-      console.log("data-state");
     }
   };
 
   $(document).on("click", ".gif", animate);
+
+//========================================================================================
+
+  //Clear Gif function
+  function clearGif(){
+    $("#gif-well").empty();
+  }
+
+  $(document).on("click", "#clear-button", clearGif);
+
 
 renderButtons();
