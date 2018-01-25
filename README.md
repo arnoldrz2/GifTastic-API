@@ -1,1 +1,1 @@
-# GifTastic-API-HW6
+# GifTastic-API
